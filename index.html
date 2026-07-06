@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nutheti Manoj Kumar — Senior Security Analyst · SOC Team Lead</title>
+<meta name="description" content="Senior Security Analyst & SOC Team Lead with 6+ years across SOC operations, security engineering, and org-level governance. Bengaluru, India.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0A0F1A;
+    --ink-2:#0F1726;
+    --surface:#141F33;
+    --surface-2:#1B2A44;
+    --line:#263650;
+    --amber:#E9A63C;
+    --amber-bright:#F6C669;
+    --amber-dim:#B57F2C;
+    --teal:#57A9B8;
+    --green:#5AC08A;
+    --text:#EDE8DC;
+    --muted:#8A97AC;
+    --muted-2:#5E6B80;
+    --glow:rgba(233,166,60,.15);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--ink);color:var(--text);font-family:"IBM Plex Sans",system-ui,sans-serif;
+    line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--amber);color:var(--ink)}
+
+  /* ambient texture: scanlines + radial glow + drifting grid */
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:
+      radial-gradient(1100px 560px at 80% -8%,var(--glow),transparent 62%),
+      radial-gradient(800px 500px at -10% 100%,rgba(87,169,184,.07),transparent 55%),
+      repeating-linear-gradient(0deg,rgba(255,255,255,.012) 0 1px,transparent 1px 3px)}
+  body::after{content:"";position:fixed;inset:-50%;pointer-events:none;z-index:0;opacity:.35;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:64px 64px;
+    mask-image:radial-gradient(700px 500px at 75% 8%,rgba(0,0,0,.5),transparent 70%);
+    -webkit-mask-image:radial-gradient(700px 500px at 75% 8%,rgba(0,0,0,.5),transparent 70%);
+    animation:griddrift 40s linear infinite}
+  @keyframes griddrift{to{transform:translate(64px,64px)}}
+
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px;position:relative;z-index:1}
+
+  .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:.78rem;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--amber);display:inline-flex;align-items:center;gap:.55rem}
+  .eyebrow::before{content:"//";color:var(--amber-dim)}
+
+  /* NAV */
+  header{position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:blur(10px);
+    background:rgba(10,15,26,.72);border-bottom:1px solid transparent;transition:border-color .3s,background .3s}
+  header.scrolled{border-bottom-color:var(--line);background:rgba(10,15,26,.92)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:66px}
+  .brand{font-family:"IBM Plex Mono",monospace;font-weight:500;letter-spacing:.05em;
+    display:flex;align-items:center;gap:.6rem;font-size:.95rem}
+  .brand .dot{width:8px;height:8px;border-radius:50%;background:var(--amber);
+    box-shadow:0 0 0 3px var(--glow);animation:pulse 2.4s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+  .nav-links{display:flex;gap:1.8rem;font-family:"IBM Plex Mono",monospace;font-size:.82rem;letter-spacing:.04em}
+  .nav-links a{color:var(--muted);transition:color .2s;position:relative;padding:.2rem 0}
+  .nav-links a:hover{color:var(--text)}
+  .nav-links a::after{content:"";position:absolute;left:0;bottom:-2px;width:0;height:1px;
+    background:var(--amber);transition:width .25s}
+  .nav-links a:hover::after{width:100%}
+  @media(max-width:680px){.nav-links{display:none}}
+
+  /* HERO */
+  .hero{padding:150px 0 80px}
+  .hero-grid{display:grid;grid-template-columns:1fr auto;gap:56px;align-items:center}
+  @media(max-width:820px){.hero-grid{grid-template-columns:1fr;gap:40px}}
+  .hero h1{font-family:"Space Grotesk",sans-serif;font-weight:700;
+    font-size:clamp(2.6rem,6.5vw,4.4rem);line-height:1.02;letter-spacing:-.02em;margin:1.1rem 0 .4rem}
+  .hero h1 .amber{color:var(--amber);text-shadow:0 0 40px rgba(233,166,60,.3)}
+  /* typing line */
+  .typeline{font-family:"IBM Plex Mono",monospace;font-size:1rem;color:var(--teal);
+    margin-top:1rem;min-height:1.6em}
+  .typeline::before{content:"> ";color:var(--amber-dim)}
+  .cursor{display:inline-block;width:9px;height:1.15em;background:var(--teal);
+    vertical-align:text-bottom;margin-left:2px;animation:blink 1s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+  .hero .lede{color:var(--muted);font-size:1.1rem;max-width:47ch;margin-top:1rem}
+  .hero .lede strong{color:var(--text);font-weight:500}
+  .cta-row{display:flex;gap:14px;margin-top:2.1rem;flex-wrap:wrap}
+  .btn{font-family:"IBM Plex Mono",monospace;font-size:.85rem;letter-spacing:.03em;
+    padding:.85rem 1.4rem;border-radius:2px;display:inline-flex;align-items:center;gap:.5rem;
+    transition:transform .18s,box-shadow .25s,background .2s;border:1px solid var(--line)}
+  .btn.primary{background:var(--amber);color:#1a1305;border-color:var(--amber);font-weight:500}
+  .btn.primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px -8px rgba(233,166,60,.55)}
+  .btn.ghost{color:var(--text);background:transparent}
+  .btn.ghost:hover{border-color:var(--amber);color:var(--amber);transform:translateY(-2px)}
+  .btn.dl{background:var(--surface);color:var(--amber-bright);border-color:var(--amber-dim);position:relative;overflow:hidden}
+  .btn.dl::before{content:"";position:absolute;top:0;left:-100%;width:60%;height:100%;
+    background:linear-gradient(90deg,transparent,rgba(246,198,105,.15),transparent);
+    animation:sheen 3.5s ease-in-out infinite}
+  @keyframes sheen{0%,60%{left:-100%}100%{left:160%}}
+  .btn.dl:hover{background:var(--surface-2);transform:translateY(-2px)}
+
+  /* RADAR AVATAR */
+  .radar{width:230px;height:230px;position:relative;display:grid;place-items:center;
+    filter:drop-shadow(0 20px 44px rgba(0,0,0,.5))}
+  @media(max-width:820px){.radar{width:170px;height:170px;margin:0 auto}}
+  .radar svg{position:absolute;inset:0;width:100%;height:100%}
+  .radar .sweep{transform-origin:100px 100px;animation:sweep 4s linear infinite}
+  @keyframes sweep{to{transform:rotate(360deg)}}
+  .radar .blip{animation:blipfade 4s ease-out infinite}
+  .radar .blip.b2{animation-delay:1.3s}
+  .radar .blip.b3{animation-delay:2.6s}
+  @keyframes blipfade{0%,10%{opacity:0}14%{opacity:1}55%,100%{opacity:0}}
+  .radar .initials{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:2.9rem;
+    color:var(--amber-bright);position:relative;letter-spacing:.02em;
+    text-shadow:0 0 28px rgba(233,166,60,.45)}
+  @media(max-width:820px){.radar .initials{font-size:2.1rem}}
+
+  /* CONSOLE with boot sequence */
+  .console{margin-top:48px;border:1px solid var(--line);border-radius:4px;overflow:hidden;
+    background:linear-gradient(180deg,var(--ink-2),var(--surface));font-family:"IBM Plex Mono",monospace;
+    box-shadow:0 0 0 1px rgba(233,166,60,.05),0 24px 60px -30px rgba(0,0,0,.7)}
+  .console-bar{display:flex;align-items:center;gap:8px;padding:.6rem .9rem;
+    border-bottom:1px solid var(--line);background:rgba(255,255,255,.015)}
+  .console-bar .lamp{width:10px;height:10px;border-radius:50%}
+  .lamp.r{background:#c9564a}.lamp.y{background:var(--amber)}.lamp.g{background:#5aa06a}
+  .console-bar span{margin-left:auto;font-size:.72rem;color:var(--muted-2);letter-spacing:.08em}
+  .bootlog{padding:.9rem 1.1rem .4rem;font-size:.76rem;color:var(--muted-2);line-height:1.9;
+    border-bottom:1px dashed var(--line)}
+  .bootlog .ok{color:var(--green)}
+  .bootlog .ln{opacity:0;animation:lnin .01s forwards}
+  .bootlog .ln:nth-child(1){animation-delay:.3s}
+  .bootlog .ln:nth-child(2){animation-delay:.8s}
+  .bootlog .ln:nth-child(3){animation-delay:1.3s}
+  .bootlog .ln:nth-child(4){animation-delay:1.8s}
+  @keyframes lnin{to{opacity:1}}
+  .console-body{padding:1rem 1.1rem;font-size:.83rem;color:var(--muted);
+    display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+  @media(max-width:700px){.console-body{grid-template-columns:1fr 1fr}}
+  .stat .k{color:var(--muted-2);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase}
+  .stat .v{color:var(--amber-bright);font-size:1.5rem;font-weight:500;margin-top:.2rem;
+    display:flex;align-items:baseline;gap:.15rem}
+  .stat .v small{font-size:.85rem;color:var(--muted)}
+  #clock{color:var(--teal)}
+
+  /* SECTIONS */
+  section{padding:88px 0;position:relative}
+  .sec-head{margin-bottom:2.6rem}
+  .sec-head h2{font-family:"Space Grotesk",sans-serif;font-weight:600;
+    font-size:clamp(1.7rem,3.6vw,2.4rem);letter-spacing:-.015em;margin-top:.7rem}
+  .sec-head p{color:var(--muted);max-width:56ch;margin-top:.8rem}
+  .divider{height:1px;background:linear-gradient(90deg,var(--line),transparent);border:none}
+
+  /* ABOUT */
+  .about-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:48px;align-items:start}
+  @media(max-width:820px){.about-grid{grid-template-columns:1fr;gap:32px}}
+  .about-body p{color:var(--muted);margin-bottom:1.1rem}
+  .about-body p strong{color:var(--text);font-weight:500}
+  .facts{border-left:2px solid var(--amber);padding-left:1.3rem;display:grid;gap:1.3rem}
+  .facts .f .fk{font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--amber)}
+  .facts .f .fv{color:var(--text);font-size:.98rem;margin-top:.15rem}
+  .facts .f .fv span{color:var(--muted);display:block;font-size:.86rem}
+
+  /* SKILLS */
+  .skill-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+  @media(max-width:700px){.skill-grid{grid-template-columns:1fr}}
+  .skill-card{border:1px solid var(--line);border-radius:4px;padding:1.5rem 1.4rem;
+    background:linear-gradient(180deg,var(--surface),var(--ink-2));
+    transition:border-color .25s,transform .25s,box-shadow .3s;position:relative;overflow:hidden}
+  .skill-card::before{content:"";position:absolute;top:0;left:0;width:3px;height:0;
+    background:var(--amber);transition:height .3s}
+  .skill-card:hover{border-color:var(--amber-dim);transform:translateY(-4px);
+    box-shadow:0 18px 44px -20px rgba(233,166,60,.3)}
+  .skill-card:hover::before{height:100%}
+  .skill-card .idx{font-family:"IBM Plex Mono",monospace;font-size:.72rem;color:var(--amber-dim)}
+  .skill-card h3{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:1.12rem;
+    margin:.3rem 0 .9rem;color:var(--text)}
+  .tags{display:flex;flex-wrap:wrap;gap:.5rem}
+  .tag{font-family:"IBM Plex Mono",monospace;font-size:.76rem;color:var(--muted);
+    border:1px solid var(--line);border-radius:2px;padding:.28rem .6rem;background:rgba(255,255,255,.015);
+    transition:color .2s,border-color .2s}
+  .skill-card:hover .tag{color:var(--text)}
+  .tag.hot{color:var(--amber-bright);border-color:var(--amber-dim);background:rgba(233,166,60,.06)}
+
+  /* EXPERIENCE — timeline */
+  .timeline{position:relative;display:grid;gap:26px;padding-left:34px}
+  .timeline::before{content:"";position:absolute;left:9px;top:8px;bottom:8px;width:2px;
+    background:linear-gradient(180deg,var(--amber),var(--line) 60%)}
+  .exp{position:relative;border:1px solid var(--line);border-radius:4px;overflow:hidden;
+    background:linear-gradient(180deg,var(--surface),var(--ink-2));
+    transition:border-color .25s,box-shadow .3s}
+  .exp:hover{border-color:var(--amber-dim);box-shadow:0 20px 50px -26px rgba(233,166,60,.28)}
+  .exp::before{content:"";position:absolute;left:-31px;top:26px;width:14px;height:14px;border-radius:50%;
+    background:var(--ink);border:3px solid var(--amber);box-shadow:0 0 0 4px rgba(233,166,60,.12)}
+  .exp:first-child::before{background:var(--amber);animation:pulse 2.4s infinite}
+  .exp-top{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+    padding:1.4rem 1.7rem;border-bottom:1px solid var(--line)}
+  .exp-top .role{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:1.25rem}
+  .exp-top .org{color:var(--amber);font-family:"IBM Plex Mono",monospace;font-size:.88rem;margin-top:.2rem}
+  .exp-top .when{font-family:"IBM Plex Mono",monospace;font-size:.78rem;color:var(--muted);text-align:right;white-space:nowrap}
+  .tag-live{display:inline-flex;align-items:center;gap:.4rem;color:var(--teal)}
+  .tag-live::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--teal);
+    box-shadow:0 0 0 3px rgba(87,169,184,.18);animation:pulse 2.4s infinite}
+  .exp-body{padding:1.5rem 1.7rem}
+  .exp-body>p{color:var(--muted);margin-bottom:1rem;font-size:.95rem}
+  .exp-domains{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.1rem}
+  .exp-domain{font-family:"IBM Plex Mono",monospace;font-size:.72rem;color:var(--teal);
+    border:1px solid rgba(87,169,184,.3);border-radius:2px;padding:.2rem .55rem;background:rgba(87,169,184,.05)}
+  .exp-domain.ai{color:var(--amber-bright);border-color:rgba(233,166,60,.4);background:rgba(233,166,60,.07)}
+  .exp-body ul{list-style:none;display:grid;gap:.65rem}
+  .exp-body li{position:relative;padding-left:1.6rem;color:var(--text);font-size:.93rem;line-height:1.55}
+  .exp-body li::before{content:"›";position:absolute;left:0;color:var(--amber);font-weight:700}
+  .exp-body li span{color:var(--muted)}
+
+  /* CERTS */
+  .cert-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  @media(max-width:600px){.cert-grid{grid-template-columns:1fr}}
+  .cert{border:1px solid var(--line);border-radius:4px;padding:1.1rem 1.3rem;
+    background:var(--ink-2);display:flex;align-items:flex-start;gap:.9rem;
+    transition:border-color .25s,transform .25s}
+  .cert:hover{border-color:var(--amber-dim);transform:translateY(-3px)}
+  .cert .icon{color:var(--amber);font-size:1.1rem;margin-top:.1rem;flex-shrink:0}
+  .cert .cn{font-weight:500;font-size:.95rem}
+  .cert .ci{color:var(--muted);font-size:.82rem;font-family:"IBM Plex Mono",monospace;margin-top:.2rem}
+
+  /* EDU */
+  .edu{display:flex;align-items:center;gap:1.2rem;border:1px solid var(--line);border-radius:4px;
+    padding:1.3rem 1.5rem;background:var(--ink-2)}
+  .edu .badge{font-family:"IBM Plex Mono",monospace;color:var(--amber);border:1px solid var(--line);
+    border-radius:3px;padding:.7rem .8rem;font-size:.8rem;white-space:nowrap}
+  .edu .en{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:1.1rem}
+  .edu .ed{color:var(--muted);font-size:.9rem;margin-top:.15rem}
+
+  /* CONTACT */
+  .contact{text-align:center;padding:96px 0 70px;position:relative}
+  .contact::before{content:"";position:absolute;left:50%;top:40px;transform:translateX(-50%);
+    width:520px;height:280px;background:radial-gradient(closest-side,var(--glow),transparent);
+    pointer-events:none}
+  .contact h2{font-family:"Space Grotesk",sans-serif;font-weight:700;
+    font-size:clamp(2rem,5vw,3.2rem);letter-spacing:-.02em;margin:1rem 0 1rem;position:relative}
+  .contact h2 .amber{color:var(--amber)}
+  .contact p{color:var(--muted);max-width:48ch;margin:0 auto 2rem;position:relative}
+  .contact .cta-row{justify-content:center;position:relative}
+
+  footer{border-top:1px solid var(--line);padding:28px 0;margin-top:20px}
+  .foot{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;
+    font-family:"IBM Plex Mono",monospace;font-size:.78rem;color:var(--muted-2)}
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}
+    .reveal{opacity:1;transform:none}.typeline .cursor{display:none}}
+  :focus-visible{outline:2px solid var(--amber);outline-offset:3px;border-radius:2px}
+</style>
+</head>
+<body>
+
+<header id="hdr">
+  <div class="wrap nav">
+    <a class="brand" href="#top"><span class="dot"></span>manoj_kumar.sec</a>
+    <nav class="nav-links">
+      <a href="#about">about</a>
+      <a href="#skills">skills</a>
+      <a href="#experience">experience</a>
+      <a href="#certifications">certs</a>
+      <a href="#contact">contact</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-grid">
+      <div>
+        <span class="eyebrow">Senior Security Analyst · SOC Team Lead</span>
+        <h1>Nutheti Manoj<br><span class="amber">Kumar</span></h1>
+        <div class="typeline"><span id="typed"></span><span class="cursor"></span></div>
+        <p class="lede">Six years defending organizations across <strong>SOC operations</strong>, <strong>security engineering</strong>, and org-level governance — currently building and leading the Security Operations Center at <strong>GreytHR</strong>.</p>
+        <div class="cta-row">
+          <a class="btn primary" href="mailto:nuthetimanoj0011@gmail.com">→ Get in touch</a>
+          <a class="btn ghost" href="https://www.linkedin.com/in/manoj-kumar-58b757169/" target="_blank" rel="noopener">LinkedIn ↗</a>
+          <a class="btn dl" href="Manoj_Kumar_Nutheti_Resume.pdf" download="Manoj_Kumar_Nutheti_Resume.pdf">⬇ Resume</a>
+        </div>
+      </div>
+
+      <!-- RADAR AVATAR -->
+      <div class="radar" aria-hidden="true">
+        <svg viewBox="0 0 200 200" fill="none">
+          <circle cx="100" cy="100" r="96" stroke="var(--amber)" stroke-width="1.5" opacity=".8"/>
+          <circle cx="100" cy="100" r="70" stroke="var(--line)" stroke-width="1"/>
+          <circle cx="100" cy="100" r="44" stroke="var(--line)" stroke-width="1"/>
+          <line x1="100" y1="4" x2="100" y2="196" stroke="var(--line)" stroke-width="1" opacity=".6"/>
+          <line x1="4" y1="100" x2="196" y2="100" stroke="var(--line)" stroke-width="1" opacity=".6"/>
+          <g class="sweep">
+            <path d="M100 100 L100 6 A94 94 0 0 1 158 26 Z" fill="url(#sweepg)"/>
+          </g>
+          <circle class="blip" cx="142" cy="66" r="3.5" fill="var(--teal)"/>
+          <circle class="blip b2" cx="70" cy="140" r="3" fill="var(--amber-bright)"/>
+          <circle class="blip b3" cx="128" cy="132" r="2.5" fill="var(--green)"/>
+          <defs>
+            <linearGradient id="sweepg" x1="100" y1="6" x2="150" y2="60" gradientUnits="userSpaceOnUse">
+              <stop stop-color="var(--amber)" stop-opacity=".45"/>
+              <stop offset="1" stop-color="var(--amber)" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <span class="initials">MK</span>
+      </div>
+    </div>
+
+    <!-- CONSOLE -->
+    <div class="console reveal">
+      <div class="console-bar">
+        <span class="lamp r"></span><span class="lamp y"></span><span class="lamp g"></span>
+        <span>SOC // STATUS: OPERATIONAL · <span id="clock">--:--:--</span> IST</span>
+      </div>
+      <div class="bootlog" aria-hidden="true">
+        <div class="ln">[ <span class="ok">OK</span> ] siem.engine ......... wazuh · qradar · splunk</div>
+        <div class="ln">[ <span class="ok">OK</span> ] edr.mesh ............ sentinelone · trendmicro</div>
+        <div class="ln">[ <span class="ok">OK</span> ] cloud.telemetry ..... gcp_scc · guardduty · waf</div>
+        <div class="ln">[ <span class="ok">OK</span> ] ai.triage_agent ..... automated · analyzing</div>
+      </div>
+      <div class="console-body">
+        <div class="stat"><div class="k">Experience</div><div class="v">6<small>+ yrs</small></div></div>
+        <div class="stat"><div class="k">Current role</div><div class="v" style="font-size:1.05rem">SOC Lead</div></div>
+        <div class="stat"><div class="k">Base</div><div class="v" style="font-size:1.05rem">Bengaluru</div></div>
+        <div class="stat"><div class="k">Domains</div><div class="v" style="font-size:1rem">SOC · GRC · Cloud</div></div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="sec-head reveal">
+      <span class="eyebrow">About</span>
+      <h2>Defense built from the ground up</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-body reveal">
+        <p>I'm a <strong>Senior Security Analyst & SOC Team Lead</strong> with six years across the cybersecurity spectrum — moving from multi-domain security work through frontline SOC operations at Deloitte, into organization-level security ownership.</p>
+        <p>Today I lead the <strong>Security Operations Center at GreytHR</strong>, where I designed and deployed the full SOC stack from zero — SIEM, EDR, email security, web proxy, threat intelligence, and cloud-native controls. I also built an <strong>AI agent that automates analysis of repetitive alerts</strong>, freeing the team for deep investigations. Beyond operations, I support the <strong>governance side</strong>: policy and procedure reviews, risk management, audit process reviews, and VAPT/ASM report validation.</p>
+        <p>Previously at <strong>Deloitte</strong> as Assistant Manager I oversaw multi-client SOC engagements, managed L1/L2 analyst teams, and served as the primary client-facing security contact.</p>
+      </div>
+      <div class="facts reveal">
+        <div class="f"><div class="fk">Current</div><div class="fv">Greytip Software (GreytHR)<span>Senior Analyst · SOC Lead</span></div></div>
+        <div class="f"><div class="fk">Prior</div><div class="fv">Deloitte · CSCC Labs</div></div>
+        <div class="f"><div class="fk">Domains</div><div class="fv">SOC · GRC · Org Security</div></div>
+        <div class="f"><div class="fk">Location</div><div class="fv">Bengaluru, India</div></div>
+        <div class="f"><div class="fk">Languages</div><div class="fv">English · Telugu</div></div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Expertise</span>
+      <h2>Capabilities &amp; toolset</h2>
+      <p>The full stack — detection, investigation, endpoint control, cloud, proxy, automation, and governance.</p>
+    </div>
+    <div class="skill-grid">
+      <div class="skill-card reveal">
+        <div class="idx">01</div>
+        <h3>SIEM Platforms</h3>
+        <div class="tags"><span class="tag">IBM QRadar</span><span class="tag">Splunk</span><span class="tag">Wazuh</span></div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="idx">02</div>
+        <h3>EDR / XDR</h3>
+        <div class="tags"><span class="tag">SentinelOne</span><span class="tag">Trend Micro</span><span class="tag">MS Defender</span><span class="tag">XProtect</span></div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="idx">03</div>
+        <h3>AI &amp; Automation</h3>
+        <div class="tags"><span class="tag hot">AI Alert Triage Agent</span><span class="tag">SOC Workflow Automation</span></div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="idx">04</div>
+        <h3>Email Security</h3>
+        <div class="tags"><span class="tag">Trend Micro Email Security</span><span class="tag">Google Workspace</span></div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="idx">05</div>
+        <h3>Cloud Security</h3>
+        <div class="tags"><span class="tag">GCP SCC</span><span class="tag">Cloud Armor</span><span class="tag">AWS GuardDuty</span><span class="tag">AWS WAF</span></div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="idx">06</div>
+        <h3>Web Proxy &amp; Threat Intel</h3>
+        <div class="tags"><span class="tag">Zscaler</span><span class="tag">OpenCTI</span><span class="tag">MISP</span><span class="tag">TheHive</span></div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="idx">07</div>
+        <h3>SOAR &amp; Ticketing</h3>
+        <div class="tags"><span class="tag">Cortex XSOAR</span><span class="tag">Shuffle</span><span class="tag">ServiceNow</span><span class="tag">Jira</span><span class="tag">Apex</span></div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="idx">08</div>
+        <h3>GRC &amp; Process Management</h3>
+        <div class="tags"><span class="tag">Policy Reviews</span><span class="tag">Risk Management</span><span class="tag">Audit Reviews</span><span class="tag">VAPT &amp; ASM Report Reviews</span></div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Experience</span>
+      <h2>Career timeline</h2>
+    </div>
+    <div class="timeline">
+
+      <!-- GreytHR -->
+      <div class="exp reveal">
+        <div class="exp-top">
+          <div>
+            <div class="role">Senior Security Analyst · SOC Team Lead</div>
+            <div class="org">Greytip Software Solutions (GreytHR) · Bengaluru</div>
+          </div>
+          <div class="when">Mar 2024 — Present<br><span class="tag-live">Currently active</span></div>
+        </div>
+        <div class="exp-body">
+          <p>Leading end-to-end security operations — designed and deployed the full SOC from scratch across hybrid infrastructure, with AI-driven triage automation.</p>
+          <div class="exp-domains">
+            <span class="exp-domain">SOC Buildout</span><span class="exp-domain">SIEM Engineering</span>
+            <span class="exp-domain ai">AI Triage Automation</span><span class="exp-domain">EDR Management</span>
+            <span class="exp-domain">Email Security</span><span class="exp-domain">Web Proxy</span>
+            <span class="exp-domain">Cloud Security</span><span class="exp-domain">GRC &amp; Process</span>
+          </div>
+          <ul>
+            <li>Architected and deployed a full SOC using <span>Wazuh, OpenCTI, MISP, and TheHive</span> — covering endpoint, server, application, and cloud telemetry.</li>
+            <li>Built an <span>AI agent to automate analysis of repetitive alerts</span> — accelerating routine triage and freeing analyst time for complex investigations.</li>
+            <li>Integrated cloud-native controls — <span>GCP SCC, Cloud Armor, AWS GuardDuty, and AWS WAF</span> — into centralized monitoring for unified hybrid visibility.</li>
+            <li>Deployed and manage <span>SentinelOne and Trend Micro EDR</span>; set policies in EDR and JumpCloud for endpoint control.</li>
+            <li>Own and operate <span>Trend Micro Email Security and Google Workspace</span> protection — monitoring phishing, suspicious logins, and email-borne threats.</li>
+            <li>Manage <span>Zscaler web proxy</span> — URL filtering, SSL inspection, and proxy alert investigation.</li>
+            <li>Developed and continuously tuned <span>Wazuh detection rules</span> aligned with MITRE ATT&CK; implemented <span>SSO</span> org-wide.</li>
+            <li>Support <span>security policies and procedures reviews</span>, risk management activities, and monitoring &amp; auditing process reviews.</li>
+            <li>Review <span>VAPT reports and ASM tool findings</span>, validating exposures and tracking remediation with stakeholders.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Deloitte AM -->
+      <div class="exp reveal">
+        <div class="exp-top">
+          <div>
+            <div class="role">Assistant Manager – SOC</div>
+            <div class="org">Deloitte · India</div>
+          </div>
+          <div class="when">Jun 2023 — Apr 2024</div>
+        </div>
+        <div class="exp-body">
+          <p>Managed multi-client SOC operations, overseeing detection quality, analyst teams, and executive client relationships.</p>
+          <div class="exp-domains">
+            <span class="exp-domain">SOC Leadership</span><span class="exp-domain">Client Engagement</span>
+            <span class="exp-domain">Detection Engineering</span><span class="exp-domain">Team Management</span>
+          </div>
+          <ul>
+            <li>Managed multi-client SOC operations — alert triage, escalation workflows, and SLA adherence.</li>
+            <li>Acted as primary <span>client-facing security contact</span>, coordinating detection gap reviews and monitoring strategy updates.</li>
+            <li>Reviewed and validated <span>L1/L2 analyst investigations</span>, coaching teams on investigation quality and escalation accuracy.</li>
+            <li>Worked with SOC managers to optimize <span>QRadar and Splunk detection use cases</span>.</li>
+            <li>Prepared executive-level <span>SOC reports, offense summaries, and operational dashboards</span>.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Deloitte Consultant -->
+      <div class="exp reveal">
+        <div class="exp-top">
+          <div>
+            <div class="role">Security Consultant – SOC</div>
+            <div class="org">Deloitte · India</div>
+          </div>
+          <div class="when">Dec 2021 — Jun 2023</div>
+        </div>
+        <div class="exp-body">
+          <p>Frontline SOC analyst across multi-client enterprise engagements — alert triage, SIEM rule engineering, log onboarding, and incident support.</p>
+          <div class="exp-domains">
+            <span class="exp-domain">Alert Triage</span><span class="exp-domain">SIEM Rules</span>
+            <span class="exp-domain">Incident Response</span><span class="exp-domain">Log Onboarding</span>
+          </div>
+          <ul>
+            <li>Daily alert triage across <span>SentinelOne, O365, Zscaler, Trend Micro, and QRadar</span> for multiple clients.</li>
+            <li>Created and tuned <span>SIEM detection rules</span> based on client threat environments and attack pattern analysis.</li>
+            <li>Onboarded and validated log sources; ensured <span>parser health and ingestion integrity</span>.</li>
+            <li>Supported Incident Response teams with <span>SIEM log extraction, timeline building, and cross-source correlation</span>.</li>
+            <li>Acted as on-site SOC coordinator; mentored junior analysts and ran <span>L1 analyst review sessions</span>.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- CSCC Labs -->
+      <div class="exp reveal">
+        <div class="exp-top">
+          <div>
+            <div class="role">Security Analyst</div>
+            <div class="org">CSCC Labs · India</div>
+          </div>
+          <div class="when">Sep 2019 — Dec 2021</div>
+        </div>
+        <div class="exp-body">
+          <p>Multi-domain security analyst — worked across SOC monitoring, VAPT, server hardening, and EDR rule creation.</p>
+          <div class="exp-domains">
+            <span class="exp-domain">SOC</span><span class="exp-domain">VAPT</span>
+            <span class="exp-domain">Server Hardening</span><span class="exp-domain">EDR Rule Creation</span>
+          </div>
+          <ul>
+            <li>Monitored and investigated security events across SIEM and EDR platforms as an <span>L1/L2 SOC analyst</span>.</li>
+            <li>Performed <span>vulnerability assessments and penetration testing</span> on network and web assets — Nessus, OpenVAS, Nmap, Burp Suite, OWASP ZAP.</li>
+            <li>Executed <span>server hardening</span> — baseline configuration reviews, patch validation, and secure configuration enforcement.</li>
+            <li>Created and tuned <span>EDR detection rules</span> and assisted in SIEM rule creation and coverage reviews.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- CERTIFICATIONS -->
+  <section id="certifications">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Certifications</span>
+      <h2>Credentials</h2>
+    </div>
+    <div class="cert-grid reveal">
+      <div class="cert">
+        <div class="icon">✦</div>
+        <div><div class="cn">ICSI Certified Network Security Specialist (CNSS)</div><div class="ci">ICSI</div></div>
+      </div>
+      <div class="cert">
+        <div class="icon">✦</div>
+        <div><div class="cn">Fortinet NSE 1 &amp; NSE 2</div><div class="ci">Fortinet</div></div>
+      </div>
+      <div class="cert">
+        <div class="icon">✦</div>
+        <div><div class="cn">Autopsy Digital Forensics Training</div><div class="ci">Autopsy / Basis Technology</div></div>
+      </div>
+      <div class="cert">
+        <div class="icon">✦</div>
+        <div><div class="cn">CyberArk Security Training</div><div class="ci">CyberArk</div></div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Education</span>
+      <h2>Foundation</h2>
+    </div>
+    <div class="edu reveal">
+      <div class="badge">2015 — 2019</div>
+      <div>
+        <div class="en">Anantha Lakshmi Institute of Technology and Sciences</div>
+        <div class="ed">B.Tech — Computer Science &amp; Engineering · JNTUA University</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="contact reveal">
+    <span class="eyebrow" style="justify-content:center;display:flex">Contact</span>
+    <h2>Let's talk <span class="amber">security</span>.</h2>
+    <p>Open to conversations about SOC strategy, detection engineering, AI-driven security automation, and defensive security programs.</p>
+    <div class="cta-row">
+      <a class="btn primary" href="mailto:nuthetimanoj0011@gmail.com">→ nuthetimanoj0011@gmail.com</a>
+      <a class="btn ghost" href="https://www.linkedin.com/in/manoj-kumar-58b757169/" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a class="btn dl" href="Manoj_Kumar_Nutheti_Resume.pdf" download="Manoj_Kumar_Nutheti_Resume.pdf">⬇ Resume</a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>© <span id="yr"></span> Nutheti Manoj Kumar</span>
+    <span>Built for the defenders · Bengaluru, India</span>
+  </div>
+</footer>
+
+<script>
+  const hdr=document.getElementById('hdr');
+  addEventListener('scroll',()=>hdr.classList.toggle('scrolled',scrollY>10));
+
+  // clock
+  function tick(){const t=new Date().toLocaleTimeString('en-GB',{timeZone:'Asia/Kolkata',hour12:false});
+    const el=document.getElementById('clock');if(el)el.textContent=t}
+  tick();setInterval(tick,1000);
+  document.getElementById('yr').textContent=new Date().getFullYear();
+
+  // typing rotator
+  const phrases=[
+    'building SOCs from scratch_',
+    'automating triage with AI agents_',
+    'hunting threats across hybrid cloud_',
+    'tuning detections · killing false positives_',
+    'securing email · proxy · endpoints_'
+  ];
+  const typedEl=document.getElementById('typed');
+  const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduceMotion){typedEl.textContent=phrases[0]}
+  else{
+    let pi=0,ci=0,deleting=false;
+    function type(){
+      const p=phrases[pi];
+      if(!deleting){
+        typedEl.textContent=p.slice(0,++ci);
+        if(ci===p.length){deleting=true;return setTimeout(type,2100)}
+        setTimeout(type,42+Math.random()*40);
+      }else{
+        typedEl.textContent=p.slice(0,--ci);
+        if(ci===0){deleting=false;pi=(pi+1)%phrases.length;return setTimeout(type,350)}
+        setTimeout(type,22);
+      }
+    }
+    setTimeout(type,600);
+  }
+
+  // reveal
+  const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
